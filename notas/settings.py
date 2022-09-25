@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+import environ
 from pathlib import Path
 
 import django_on_heroku
@@ -73,6 +74,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'notas.wsgi.application'
 
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -81,6 +85,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'db.sqlite3',
+        'HUXLEY_USER': env('HUXLEY_USER'),
+        'HUXLEY_PASS': env('HUXLEY_PASS')
     }
 }
 

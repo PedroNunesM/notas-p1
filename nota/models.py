@@ -4,6 +4,7 @@ from django.db import models
 
 class Aluno(models.Model):
     nome = models.CharField(max_length=100)
+    id_huxley = models.IntegerField(default=0)
     turma = models.CharField(null=True, max_length=2)
 
     prova1 = models.DecimalField(default=0.0, max_digits=4, decimal_places=2)
@@ -28,6 +29,7 @@ class Aluno(models.Model):
 
 class NotaAluno(models.Model):
     nome = models.CharField(max_length=100)
+    id_huxley = models.IntegerField(default=0)
     turma = models.CharField(null=True, max_length=2)
     
     ab1 = models.DecimalField(default=0.0, max_digits=4, decimal_places=2)
