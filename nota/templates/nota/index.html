@@ -13,11 +13,6 @@
     <body>
         <nav class="navbar navbar-dark bg-dark">
             <a class="navbar-brand" style="color: white;">Programação 1</a>
-            {% if user.is_superuser %}
-                <a href="{% url 'importation' %}" class=" btn btn-outline-success my-2 my-sm-0">Importações</a>
-                <a href="{% url 'calcularab1' %}" class=" btn btn-outline-success my-2 my-sm-0">Calcular AB1</a>
-                <a href="{% url 'calcularab2' %}" class=" btn btn-outline-success my-2 my-sm-0" >Calcular AB2</a>
-            {% endif %}
         {% block content %}
         {% endblock %}
     </body>
