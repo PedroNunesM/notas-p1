@@ -151,6 +151,7 @@ def updateGrade():
 			print('Notas atualizadas por ultimo em: ', datetime.datetime.now(pytz.utc).strftime('%d/%m/%Y %H:%M:%S %Z %z'))
 		except:
 			print('Não conseguiu conectar')
+		time.sleep(1800)
 
 @user_passes_test(lambda u: u.is_superuser)
 def updateGradesThreading(request):
