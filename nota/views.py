@@ -139,16 +139,18 @@ def getSubmission(access_token):
 def updateGrade():
 
 	while True:
-		login = os.environ['HUXLEY_USER']
-		password = os.environ['HUXLEY_PASS']
-		token = get_token(login, password)
+		try:
+			login = os.environ['HUXLEY_USER']
+			password = os.environ['HUXLEY_PASS']
+			token = get_token(login, password)
 
-		getSubmission(token)
-		calcularAB1()
-		calcularAB2()
+			getSubmission(token)
+			calcularAB1()
+			calcularAB2()
 
-		print('Notas atualizadas por ultimo em: ', datetime.datetime.now(pytz.utc).strftime('%d/%m/%Y %H:%M:%S %Z %z'))
-		time.sleep(1800)
+			print('Notas atualizadas por ultimo em: ', datetime.datetime.now(pytz.utc).strftime('%d/%m/%Y %H:%M:%S %Z %z'))
+		except:
+			print('Não conseguiu conectar')
 
 @user_passes_test(lambda u: u.is_superuser)
 def updateGradesThreading(request):
@@ -273,7 +275,7 @@ def searchNotaIndividual(request):
 		search = request.POST['search']
 
 		if request.POST['select'] == 'nome':
-			result_search = Aluno.objects.filter(nome__contains=search)
+			result_search = Aluno.objects.filter(nome__contains=str(search).lower())
 		elif request.POST['select'] == 'turma':
 			result_search = Aluno.objects.filter(turma=search.upper())
 
@@ -302,7 +304,7 @@ def searchNotaGeral(request):
 		search = request.POST['search']
 
 		if request.POST['select'] == 'nome':
-			result_search = NotaAluno.objects.filter(nome__contains=search)
+			result_search = NotaAluno.objects.filter(nome__contains=str(search).lower())
 		elif request.POST['select'] == 'turma':
 			result_search = NotaAluno.objects.filter(turma=search.upper())
 
