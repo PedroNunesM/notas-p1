@@ -1,6 +1,7 @@
 {% extends 'nota/index.html' %}
 
 {% block content %}
+<span style="color: aliceblue;">{{registro}}</span>
 <form action="{% url 'searchindividual' %}" method="POST" class="form-inline my-2 my-lg-0">
     {% csrf_token %}
     <select id="select" onchange="trocarPesquisa(event)" class="form-control mr-sm-2" name="select">

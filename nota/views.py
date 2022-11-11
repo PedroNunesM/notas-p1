@@ -7,7 +7,7 @@ import datetime
 import pytz
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from .models import Aluno, NotaAluno
+from .models import Aluno, NotaAluno, DataAttNota
 from django.contrib import messages
 import pandas as pd
 from django.contrib.auth.decorators import user_passes_test
@@ -148,10 +148,14 @@ def updateGrade():
 			calcularAB1()
 			calcularAB2()
 
-			print('Notas atualizadas por ultimo em: ', datetime.datetime.now(pytz.utc).strftime('%d/%m/%Y %H:%M:%S %Z %z'))
+			registro = 'Notas atualizadas por ultimo em: ' + datetime.datetime.now(pytz.utc).strftime('%d/%m/%Y %H:%M:%S')
+			if(len(DataAttNota.objects.all()) >= 1):
+				for data in DataAttNota.objects.all():
+					DataAttNota.objects.get(registro=data.registro).delete()
+			DataAttNota.objects.create(registro=registro).save()
 		except:
-			print('Não conseguiu conectar')
-		time.sleep(1800)
+			pass
+		# time.sleep(1800)
 
 @user_passes_test(lambda u: u.is_superuser)
 def updateGradesThreading(request):
@@ -179,6 +183,10 @@ def resolution(request):
 
 	data['alunos'] = alunos_ordenados
 	data['colunas'] = colunas
+	ultimoRegistro = DataAttNota.objects.get().registro.split(':')
+	registro = ultimoRegistro[0] + ': ' + ultimoRegistro[1].split(' ')[1] + ' ' + str((int(ultimoRegistro[1].split(' ')[2])-3)%24) + ':' + ultimoRegistro[2] + ':' + ultimoRegistro[3]
+	data['registro'] = registro
+
 
 	return render(request, 'nota/resolution.html', data)
 
@@ -197,6 +205,7 @@ def notasAcumuladas(request):
 
 	data['alunos'] = alunos_ordenados
 	data['colunas'] = colunas
+	data['registro'] = DataAttNota.objects.get().registro
 
 	return render(request, 'nota/notas.html', data)
 
