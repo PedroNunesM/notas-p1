@@ -183,9 +183,12 @@ def resolution(request):
 
 	data['alunos'] = alunos_ordenados
 	data['colunas'] = colunas
-	ultimoRegistro = DataAttNota.objects.get().registro.split(':')
-	registro = ultimoRegistro[0] + ': ' + ultimoRegistro[1].split(' ')[1] + ' ' + str((int(ultimoRegistro[1].split(' ')[2])-3)%24) + ':' + ultimoRegistro[2] + ':' + ultimoRegistro[3]
-	data['registro'] = registro
+	try:
+		ultimoRegistro = DataAttNota.objects.get().registro.split(':')
+		registro = ultimoRegistro[0] + ': ' + ultimoRegistro[1].split(' ')[1] + ' ' + str((int(ultimoRegistro[1].split(' ')[2])-3)%24) + ':' + ultimoRegistro[2] + ':' + ultimoRegistro[3]
+		data['registro'] = registro
+	except:
+		pass
 
 
 	return render(request, 'nota/resolution.html', data)
@@ -205,7 +208,12 @@ def notasAcumuladas(request):
 
 	data['alunos'] = alunos_ordenados
 	data['colunas'] = colunas
-	data['registro'] = DataAttNota.objects.get().registro
+	try:
+		ultimoRegistro = DataAttNota.objects.get().registro.split(':')
+		registro = ultimoRegistro[0] + ': ' + ultimoRegistro[1].split(' ')[1] + ' ' + str((int(ultimoRegistro[1].split(' ')[2])-3)%24) + ':' + ultimoRegistro[2] + ':' + ultimoRegistro[3]
+		data['registro'] = registro
+	except:
+		pass
 
 	return render(request, 'nota/notas.html', data)
 
