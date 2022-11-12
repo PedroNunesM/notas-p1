@@ -155,7 +155,7 @@ def updateGrade():
 			DataAttNota.objects.create(registro=registro).save()
 		except:
 			pass
-		# time.sleep(1800)
+		time.sleep(1800)
 
 @user_passes_test(lambda u: u.is_superuser)
 def updateGradesThreading(request):
